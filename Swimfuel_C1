@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwimFuel Premium - Enhanced V3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 0.75rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 48px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #1e3a8a;
+            background: #eff6ff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #d1d5db;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Enhanced Swimmer Profile */
+        .swimmer-profile {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .swimmer-profile h3 {
+            margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .profile-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .profile-group select, .profile-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .profile-group select:focus, .profile-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Enhanced Nutrition Analysis */
+        .nutrition-analysis {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .macro-calculator {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .macro-detail {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .macro-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .macro-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        /* Enhanced Performance Tracking */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .performance-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .performance-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .performance-metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .improvement {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .improvement.positive {
+            background: #10b981;
+        }
+
+        .improvement.negative {
+            background: #ef4444;
+        }
+
+        /* Sample Meet Results */
+        .meet-results {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .results-table {
+            width: 100%;
+        }
+
+        .result-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 1rem;
+            border-bottom: 1px solid #f1f3f4;
+            align-items: center;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .event-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .event-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .result-time {
+            font-weight: 600;
+            color: #2563eb;
+            font-size: 1rem;
+        }
+
+        .pb-badge {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        /* Enhanced Meal Planning */
+        .meal-planning-tools {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .planning-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Nutrition Timeline */
+        .nutrition-timeline {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-left: 4px solid #e5e7eb;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .timeline-item.active {
+            border-left-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .timeline-time {
+            min-width: 100px;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Hydration Tracker */
+        .hydration-tracker {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .hydration-progress {
+            background: rgba(255,255,255,0.2);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .hydration-fill {
+            background: #22d3ee;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .hydration-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .hydration-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hydration-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Advanced Analytics */
+        .analytics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .analytics-chart {
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        /* Smart Recommendations */
+        .smart-recommendations {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .recommendation-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .recommendation-icon {
+            font-size: 1.5rem;
+        }
+
+        .recommendation-text {
+            flex: 1;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .recommendation-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Interactive Elements */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .performance-grid,
+            .analytics-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .hydration-controls {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Success States */
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .warning-message {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                🏊‍♀️ SwimFuel Premium V3
+            </div>
+            <ul class="nav-links">
+                <li><a id="dashboardLink" class="active" onclick="showPage('dashboard')">Dashboard</a></li>
+                <li><a id="nutritionLink" onclick="showPage('nutrition-analysis')">Nutrition Analysis</a></li>
+                <li><a id="mealPlanLink" onclick="showPage('meal-planning')">Meal Planning</a></li>
+                <li><a id="performanceLink" onclick="showPage('performance')">Performance</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Enhanced Dashboard -->
+        <div id="dashboard" class="page-section active">
+            <h1>Swimmer Dashboard</h1>
+            <p class="subtitle">
+                Your personalized nutrition and performance command center for optimal swimming results.
+            </p>
+
+            <!-- Smart Recommendations -->
+            <div class="smart-recommendations fade-in">
+                <h3 style="margin-bottom: 1rem;">🎯 Smart Recommendations</h3>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">⚡</div>
+                    <div class="recommendation-text">
+                        <div class="recommendation-title">Pre-Training Fuel</div>
+                        <div class="recommendation-description">Consume 30-60g carbs 1-2 hours before your next session</div>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">💧</div>
+                    <div class="recommendation-text">
+                        <div class="recommendation-title">Hydration Alert</div>
+                        <div class="recommendation-description">You're 15% behind your daily hydration goal</div>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">🏆</div>
+                    <div class="recommendation-text">
+                        <div class="recommendation-title">Competition Prep</div>
+                        <div class="recommendation-description">Begin carb loading protocol in 3 days</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Overview -->
+            <div class="performance-grid">
+                <div class="performance-card fade-in">
+                    <h3 style="margin-bottom: 1rem;">📊 Recent Performance</h3>
+                    <div class="performance-metric">
+                        <span class="metric-label">Best 50m Free</span>
+                        <div>
+                            <span class="metric-value">24.73</span>
+                            <span class="improvement positive">-0.27</span>
+                        </div>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Best 100m Free</span>
+                        <div>
+                            <span class="metric-value">54.12</span>
+                            <span class="improvement positive">-0.41</span>
+                        </div>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Training Sessions</span>
+                        <span class="metric-value">12 this week</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Recovery Score</span>
+                        <span class="metric-value">87/100</span>
+                    </div>
+                </div>
+
+                <div class="performance-card fade-in">
+                    <h3 style="margin-bottom: 1rem;">🥗 Nutrition Score</h3>
+                    <div class="performance-metric">
+                        <span class="metric-label">Daily Calories</span>
+                        <span class="metric-value">2,340/2,500</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Protein Target</span>
+                        <span class="metric-value">124g/130g</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Carb Intake</span>
+                        <span class="metric-value">315g/350g</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Meal Timing</span>
+                        <span class="metric-value">Excellent</span>
+                    </div>
+                </div>
+
+                <div class="performance-card fade-in">
+                    <h3 style="margin-bottom: 1rem;">📅 Upcoming Events</h3>
+                    <div class="performance-metric">
+                        <span class="metric-label">Next Competition</span>
+                        <span class="metric-value">12 days</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Training Phase</span>
+                        <span class="metric-value">Tapering</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Time Trials</span>
+                        <span class="metric-value">3 this month</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Goals Progress</span>
+                        <span class="metric-value">8/10 achieved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hydration Tracker -->
+            <div class="hydration-tracker fade-in">
+                <h3>💧 Daily Hydration Tracker</h3>
+                <p>Goal: 3.5L | Current: <span id="currentHydration">2.1L</span> | Remaining: <span id="remainingHydration">1.4L</span></p>
+                <div class="hydration-progress">
+                    <div class="hydration-fill" id="hydrationFill" style="width: 60%;"></div>
+                </div>
+                <div class="hydration-controls">
+                    <button class="hydration-btn" onclick="addHydration(250)">+250ml</button>
+                    <button class="hydration-btn" onclick="addHydration(500)">+500ml</button>
+                    <button class="hydration-btn" onclick="addHydration(750)">+750ml</button>
+                    <button class="hydration-btn" onclick="resetHydration()">Reset</button>
+                </div>
+            </div>
+
+            <!-- Nutrition Timeline -->
+            <div class="nutrition-timeline fade-in">
+                <h3 style="margin-bottom: 1rem;">🕐 Today's Nutrition Timeline</h3>
+                <div class="timeline-item active">
+                    <div class="timeline-time">6:30 AM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Pre-Training</div>
+                        <div class="timeline-description">Banana + honey toast - 45g carbs</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">8:00 AM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Post-Training</div>
+                        <div class="timeline-description">Protein shake + berries - 25g protein, 30g carbs</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">12:30 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Lunch</div>
+                        <div class="timeline-description">Grilled chicken rice bowl - 35g protein, 60g carbs</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">6:00 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Dinner</div>
+                        <div class="timeline-description">Salmon with quinoa & vegetables - 40g protein, 55g carbs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Nutrition Analysis -->
+        <div id="nutrition-analysis" class="page-section">
+            <h1>Advanced Nutrition Analysis</h1>
+            <p class="subtitle">
+                Detailed macro and micronutrient analysis with personalized recommendations.
+            </p>
+
+            <!-- Swimmer Profile -->
+            <div class="swimmer-profile fade-in">
+                <h3>Swimmer Profile</h3>
+                <div class="profile-form">
+                    <div class="profile-group">
+                        <label>Age Group</label>
+                        <select id="ageGroup">
+                            <option value="13-14" selected>AG 13-14</option>
+                            <option value="15-over">AG 15 & Over</option>
+                            <option value="11-12">AG 11-12</option>
+                            <option value="10-under">10 & Under</option>
+                        </select>
+                    </div>
+                    
+                    <div class="profile-group">
+                        <label>Gender</label>
+                        <select id="gender">
+                            <option value="female" selected>Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                    </div>
+
+                    <div class="profile-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" value="65" min="30" max="120" onchange="updateAnalysis()">
+                    </div>
+
+                    <div class="profile-group">
+                        <label>Height (cm)</label>
+                        <input type="number" id="height" value="170" min="120" max="220" onchange="updateAnalysis()">
+                    </div>
+
+                    <div class="profile-group">
+                        <label>Training Intensity</label>
+                        <select id="intensity" onchange="updateAnalysis()">
+                            <option value="moderate">Moderate</option>
+                            <option value="high" selected>High</option>
+                            <option value="elite">Elite</option>
+                        </select>
+                    </div>
+
+                    <div class="profile-group">
+                        <label>Competition Phase</label>
+                        <select id="phase" onchange="updateAnalysis()">
+                            <option value="training" selected>Training</option>
+                            <option value="tapering">Tapering</option>
+                            <option value="competition">Competition</option>
+                            <option value="recovery">Recovery</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Macro Calculator -->
+            <div class="nutrition-analysis fade-in">
+                <h3>Personalized Macro Targets</h3>
+                <div class="macro-calculator" id="macroCalculator">
+                    <div class="macro-detail">
+                        <div class="macro-value" id="calorieTarget">2,450</div>
+                        <div class="macro-label">Daily Calories</div>
+                    </div>
+                    <div class="macro-detail">
+                        <div class="macro-value" id="proteinTarget">130g</div>
+                        <div class="macro-label">Protein (20%)</div>
+                    </div>
+                    <div class="macro-detail">
+                        <div class="macro-value" id="carbTarget">350g</div>
+                        <div class="macro-label">Carbohydrates (55%)</div>
+                    </div>
+                    <div class="macro-detail">
+                        <div class="macro-value" id="fatTarget">70g</div>
+                        <div class="macro-label">Fats (25%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Dashboard -->
+            <div class="analytics-dashboard fade-in">
+                <div class="analytics-card">
+                    <h4>Nutrient Timing</h4>
+                    <div class="analytics-chart">
+                        📊 Pre/Post Training Nutrition Chart
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <h4>Weekly Trends</h4>
+                    <div class="analytics-chart">
+                        📈 7-Day Macro Distribution
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <h4>Performance Correlation</h4>
+                    <div class="analytics-chart">
+                        🎯 Nutrition vs. Times Graph
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="nutrition-analysis fade-in">
+                <h3>Phase-Specific Recommendations</h3>
+                <div id="phaseRecommendations">
+                    <div class="success-message">
+                        <strong>Training Phase Active:</strong> Focus on consistent carb intake (5-7g/kg body weight) and adequate protein for recovery (1.6-2.2g/kg).
+                    </div>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li>Eat 30-60g carbs 1-3 hours before training</li>
+                        <li>Consume protein + carbs within 30 minutes post-training</li>
+                        <li>Maintain steady energy with complex carbs</li>
+                        <li>Include anti-inflammatory foods (berries, fatty fish)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Meal Planning -->
+        <div id="meal-planning" class="page-section">
+            <h1>Smart Meal Planning</h1>
+            <p class="subtitle">
+                AI-powered meal plans optimized for your training schedule and competition timeline.
+            </p>
+
+            <!-- Planning Tools -->
+            <div class="meal-planning-tools fade-in">
+                <div class="planning-tabs">
+                    <button class="tab-btn active" onclick="showTab('daily')">Daily Plans</button>
+                    <button class="tab-btn" onclick="showTab('weekly')">Weekly Overview</button>
+                    <button class="tab-btn" onclick="showTab('competition')">Competition Prep</button>
+                    <button class="tab-btn" onclick="showTab('recipes')">Smart Recipes</button>
+                </div>
+
+                <!-- Daily Plans Tab -->
+                <div id="daily" class="tab-content active">
+                    <h4>Today's Optimized Meal Plan</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div style="background: #fef3c7; padding: 1rem; border-radius: 8px;">
+                            <h5>🌅 Breakfast (6:30 AM)</h5>
+                            <p>Oatmeal with banana and honey<br>
+                            Greek yogurt with berries<br>
+                            <strong>485 calories | 65g carbs | 22g protein</strong></p>
+                        </div>
+                        <div style="background: #d1fae5; padding: 1rem; border-radius: 8px;">
+                            <h5>🏃‍♀️ Pre-Training (7:00 AM)</h5>
+                            <p>Sports drink (500ml)<br>
+                            Energy bar<br>
+                            <strong>180 calories | 45g carbs | 4g protein</strong></p>
+                        </div>
+                        <div style="background: #dbeafe; padding: 1rem; border-radius: 8px;">
+                            <h5>🍽️ Lunch (12:00 PM)</h5>
+                            <p>Grilled chicken & quinoa bowl<br>
+                            Mixed vegetables<br>
+                            <strong>650 calories | 58g carbs | 45g protein</strong></p>
+                        </div>
+                        <div style="background: #fce7f3; padding: 1rem; border-radius: 8px;">
+                            <h5>🌙 Dinner (7:00 PM)</h5>
+                            <p>Salmon with sweet potato<br>
+                            Steamed broccoli<br>
+                            <strong>580 calories | 52g carbs | 42g protein</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Overview Tab -->
+                <div id="weekly" class="tab-content">
+                    <h4>7-Day Training Cycle</h4>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>MON</strong><br>
+                                <small>High Volume</small><br>
+                                2,650 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>TUE</strong><br>
+                                <small>Speed Work</small><br>
+                                2,450 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>WED</strong><br>
+                                <small>Recovery</small><br>
+                                2,200 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>THU</strong><br>
+                                <small>Technique</small><br>
+                                2,400 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>FRI</strong><br>
+                                <small>High Volume</small><br>
+                                2,600 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>SAT</strong><br>
+                                <small>Time Trial</small><br>
+                                2,500 cal
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <strong>SUN</strong><br>
+                                <small>Rest Day</small><br>
+                                2,100 cal
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Competition Prep Tab -->
+                <div id="competition" class="tab-content">
+                    <h4>Competition Preparation Protocol</h4>
+                    <div style="margin-top: 1rem;">
+                        <div class="warning-message">
+                            <strong>Competition in 12 days!</strong> Beginning optimized carb-loading protocol.
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #eff6ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #2563eb;">
+                                <h5>Days -14 to -8</h5>
+                                <p><strong>Normal Training Diet</strong><br>
+                                55% carbs, 20% protein, 25% fat</p>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                                <h5>Days -7 to -3</h5>
+                                <p><strong>Begin Carb Loading</strong><br>
+                                65% carbs, 15% protein, 20% fat</p>
+                            </div>
+                            <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                <h5>Days -2 to -1</h5>
+                                <p><strong>Peak Carb Loading</strong><br>
+                                70% carbs, 12% protein, 18% fat</p>
+                            </div>
+                            <div style="background: #fee2e2; padding: 1rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                                <h5>Competition Day</h5>
+                                <p><strong>Race Day Protocol</strong><br>
+                                Focus on timing and digestion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Recipes Tab -->
+                <div id="recipes" class="tab-content">
+                    <h4>Personalized Recipe Recommendations</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h5>⚡ Pre-Training Power Bowl</h5>
+                            <p><strong>Prep time:</strong> 5 minutes<br>
+                            <strong>Perfect for:</strong> 1-2 hours before training</p>
+                            <ul style="margin: 0.5rem 0 0 1rem; font-size: 0.9rem;">
+                                <li>1 cup oatmeal</li>
+                                <li>1 sliced banana</li>
+                                <li>2 tbsp honey</li>
+                                <li>1/4 cup berries</li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 0.5rem;">View Recipe</button>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h5>🔥 Recovery Protein Smoothie</h5>
+                            <p><strong>Prep time:</strong> 3 minutes<br>
+                            <strong>Perfect for:</strong> Post-training recovery</p>
+                            <ul style="margin: 0.5rem 0 0 1rem; font-size: 0.9rem;">
+                                <li>1 scoop whey protein</li>
+                                <li>1 cup chocolate milk</li>
+                                <li>1/2 banana</li>
+                                <li>1 tbsp peanut butter</li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 0.5rem;">View Recipe</button>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <h5>🥗 Champion's Lunch Bowl</h5>
+                            <p><strong>Prep time:</strong> 15 minutes<br>
+                            <strong>Perfect for:</strong> Training day lunch</p>
+                            <ul style="margin: 0.5rem 0 0 1rem; font-size: 0.9rem;">
+                                <li>150g grilled chicken</li>
+                                <li>1 cup quinoa</li>
+                                <li>Mixed vegetables</li>
+                                <li>Avocado slices</li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 0.5rem;">View Recipe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-primary">📥 Export Meal Plan</button>
+                <button class="btn btn-secondary">📧 Email to Coach</button>
+                <button class="btn btn-secondary">🛒 Generate Shopping List</button>
+                <button class="btn btn-success">✨ Generate New Plan</button>
+            </div>
+        </div>
+
+        <!-- Enhanced Performance Tracking -->
+        <div id="performance" class="page-section">
+            <h1>Performance Analytics</h1>
+            <p class="subtitle">
+                Advanced performance tracking with nutrition correlation analysis.
+            </p>
+
+            <!-- Sample Meet Results -->
+            <div class="meet-results fade-in">
+                <div class="results-header">
+                    🏆 Regional Championships - March 2025
+                </div>
+                <div class="results-table">
+                    <div class="result-row" style="background: #f8f9fa; font-weight: 600;">
+                        <div>Event</div>
+                        <div>Time</div>
+                        <div>Improvement</div>
+                        <div>Place</div>
+                    </div>
+                    <div class="result-row">
+                        <div>
+                            <div class="event-name">50m Freestyle</div>
+                            <div class="event-details">Prelims • Morning Session</div>
+                        </div>
+                        <div class="result-time">24.73 <span class="pb-badge">PB</span></div>
+                        <div class="improvement positive">-0.27</div>
+                        <div>2nd</div>
+                    </div>
+                    <div class="result-row">
+                        <div>
+                            <div class="event-name">100m Freestyle</div>
+                            <div class="event-details">Finals • Evening Session</div>
+                        </div>
+                        <div class="result-time">54.12 <span class="pb-badge">PB</span></div>
+                        <div class="improvement positive">-0.41</div>
+                        <div>1st</div>
+                    </div>
+                    <div class="result-row">
+                        <div>
+                            <div class="event-name">200m Freestyle</div>
+                            <div class="event-details">Finals • Evening Session</div>
+                        </div>
+                        <div class="result-time">1:58.34</div>
+                        <div class="improvement negative">+0.15</div>
+                        <div>3rd</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Analytics -->
+            <div class="analytics-dashboard fade-in">
+                <div class="analytics-card">
+                    <h4>🎯 Season Progress</h4>
+                    <div class="performance-metric">
+                        <span class="metric-label">Personal Bests</span>
+                        <span class="metric-value">8 this season</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Average Improvement</span>
+                        <span class="metric-value">-1.2%</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Competition Ready</span>
+                        <span class="metric-value">94%</span>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>📊 Nutrition Impact</h4>
+                    <div class="performance-metric">
+                        <span class="metric-label">Optimal Nutrition Days</span>
+                        <span class="metric-value">23/30</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Performance Correlation</span>
+                        <span class="metric-value">+2.3%</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Recovery Score</span>
+                        <span class="metric-value">87/100</span>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>⚡ Training Metrics</h4>
+                    <div class="performance-metric">
+                        <span class="metric-label">Weekly Volume</span>
+                        <span class="metric-value">28,500m</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Intensity Distribution</span>
+                        <span class="metric-value">Optimal</span>
+                    </div>
+                    <div class="performance-metric">
+                        <span class="metric-label">Next Goal</span>
+                        <span class="metric-value">24.50 50Fr</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Timeline -->
+            <div class="nutrition-timeline fade-in">
+                <h3 style="margin-bottom: 1rem;">📈 Performance Timeline</h3>
+                <div class="timeline-item">
+                    <div class="timeline-time">Mar 15</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Regional Championships</div>
+                        <div class="timeline-description">50 Free: 24.73 (PB -0.27) • 100 Free: 54.12 (PB -0.41)</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Feb 28</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Time Trial</div>
+                        <div class="timeline-description">50 Free: 25.00 • 100 Free: 54.53</div>
+                    </div>
+                </div>
+                <div class="timeline-item active">
+                    <div class="timeline-time">Mar 20</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Recovery Week</div>
+                        <div class="timeline-description">Focus on nutrition optimization and recovery protocols</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Apr 05</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">State Championships</div>
+                        <div class="timeline-description">Target: 24.50 50 Free • 53.80 100 Free</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-primary">📊 Detailed Analysis</button>
+                <button class="btn btn-secondary">📈 Export Data</button>
+                <button class="btn btn-secondary">🎯 Set New Goals</button>
+                <button class="btn btn-success">📧 Share with Coach</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentHydrationML = 2100;
+        const hydrationGoalML = 3500;
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Set active nav link
+            const linkMap = {
+                'dashboard': 'dashboardLink',
+                'nutrition-analysis': 'nutritionLink', 
+                'meal-planning': 'mealPlanLink',
+                'performance': 'performanceLink'
+            };
+            
+            if (linkMap[pageId]) {
+                document.getElementById(linkMap[pageId]).classList.add('active');
+            }
+        }
+
+        // Tab navigation for meal planning
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Set active tab button
+            event.target.classList.add('active');
+        }
+
+        // Hydration tracking
+        function addHydration(amount) {
+            currentHydrationML += amount;
+            if (currentHydrationML > hydrationGoalML) {
+                currentHydrationML = hydrationGoalML;
+            }
+            updateHydrationDisplay();
+        }
+
+        function resetHydration() {
+            currentHydrationML = 0;
+            updateHydrationDisplay();
+        }
+
+        function updateHydrationDisplay() {
+            const currentL = (currentHydrationML / 1000).toFixed(1);
+            const remainingML = Math.max(0, hydrationGoalML - currentHydrationML);
+            const remainingL = (remainingML / 1000).toFixed(1);
+            const percentage = Math.min(100, (currentHydrationML / hydrationGoalML) * 100);
+            
+            document.getElementById('currentHydration').textContent = `${currentL}L`;
+            document.getElementById('remainingHydration').textContent = `${remainingL}L`;
+            document.getElementById('hydrationFill').style.width = `${percentage}%`;
+            
+            // Add celebration effect when goal reached
+            if (currentHydrationML >= hydrationGoalML) {
+                document.getElementById('hydrationFill').style.background = '#22d3ee';
+                setTimeout(() => {
+                    alert('🎉 Congratulations! You\'ve reached your daily hydration goal!');
+                }, 100);
+            }
+        }
+
+        // Nutrition analysis calculator
+        function updateAnalysis() {
+            const weight = parseFloat(document.getElementById('weight').value) || 65;
+            const height = parseFloat(document.getElementById('height').value) || 170;
+            const intensity = document.getElementById('intensity').value;
+            const phase = document.getElementById('phase').value;
+            
+            // Calculate BMR (Mifflin-St Jeor equation for females)
+            const bmr = (10 * weight) + (6.25 * height) - (5 * 20) - 161; // Assuming age 20
+            
+            // Activity multipliers
+            const activityMultipliers = {
+                'moderate': 1.7,
+                'high': 1.9,
+                'elite': 2.1
+            };
+            
+            const calories = Math.round(bmr * activityMultipliers[intensity]);
+            
+            // Phase-specific macro ratios
+            const macroRatios = {
+                'training': { carbs: 0.55, protein: 0.20, fat: 0.25 },
+                'tapering': { carbs: 0.60, protein: 0.18, fat: 0.22 },
+                'competition': { carbs: 0.65, protein: 0.15, fat: 0.20 },
+                'recovery': { carbs: 0.50, protein: 0.25, fat: 0.25 }
+            };
+            
+            const ratios = macroRatios[phase];
+            
+            const carbCals = calories * ratios.carbs;
+            const proteinCals = calories * ratios.protein;
+            const fatCals = calories * ratios.fat;
+            
+            const carbGrams = Math.round(carbCals / 4);
+            const proteinGrams = Math.round(proteinCals / 4);
+            const fatGrams = Math.round(fatCals / 9);
+            
+            // Update display
+            document.getElementById('calorieTarget').textContent = calories.toLocaleString();
+            document.getElementById('proteinTarget').textContent = `${proteinGrams}g`;
+            document.getElementById('carbTarget').textContent = `${carbGrams}g`;
+            document.getElementById('fatTarget').textContent = `${fatGrams}g`;
+            
+            // Update recommendations
+            updatePhaseRecommendations(phase, weight, carbGrams, proteinGrams);
+        }
+
+        function updatePhaseRecommendations(phase, weight, carbGrams, proteinGrams) {
+            const recommendations = {
+                'training': {
+                    message: 'Training Phase Active: Focus on consistent carb intake and adequate protein for recovery.',
+                    tips: [
+                        'Eat 30-60g carbs 1-3 hours before training',
+                        'Consume protein + carbs within 30 minutes post-training',
+                        'Maintain steady energy with complex carbs',
+                        'Include anti-inflammatory foods (berries, fatty fish)'
+                    ]
+                },
+                'tapering': {
+                    message: 'Tapering Phase: Increase carb percentage while reducing overall volume.',
+                    tips: [
+                        'Begin carb loading protocol (8-10g/kg body weight)',
+                        'Reduce fiber intake gradually',
+                        'Focus on familiar foods only',
+                        'Maintain hydration levels'
+                    ]
+                },
+                'competition': {
+                    message: 'Competition Phase: Optimize digestion and fuel availability.',
+                    tips: [
+                        'Eat 3-4 hours before racing',
+                        'Top off carbs 1-2 hours before',
+                        'Avoid high-fiber and high-fat foods',
+                        'Stay hydrated but avoid overdrinking'
+                    ]
+                },
+                'recovery': {
+                    message: 'Recovery Phase: Prioritize protein and rehydration.',
+                    tips: [
+                        'Consume 20-25g protein within 2 hours',
+                        'Include carbs to replenish glycogen',
+                        'Focus on anti-inflammatory foods',
+                        'Rehydrate with electrolytes'
+                    ]
+                }
+            };
+            
+            const rec = recommendations[phase];
+            const recElement = document.getElementById('phaseRecommendations');
+            
+            recElement.innerHTML = `
+                <div class="success-message">
+                    <strong>${rec.message}</strong>
+                </div>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                    ${rec.tips.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        // Add fade-in animation to elements
+        function addFadeInAnimation() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.performance-card, .analytics-card, .meal-planning-tools').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update nutrition analysis on load
+            updateAnalysis();
+            
+            // Add animations
+            addFadeInAnimation();
+            
+            // Add some interactive touches
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Simulate real-time updates
+            setInterval(() => {
+                const timeElements = document.querySelectorAll('.timeline-time');
+                timeElements.forEach(el => {
+                    if (el.textContent.includes('20')) {
+                        el.parentElement.classList.add('pulse');
+                        setTimeout(() => {
+                            el.parentElement.classList.remove('pulse');
+                        }, 2000);
+                    }
+                });
+            }, 30000);
+        });
+    </script>
+</body>
+</html>
